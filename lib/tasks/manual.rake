@@ -15,13 +15,15 @@ namespace :push_message do
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       res = http.get(url)
-      pressure = JSON.parse(res).dig("current", "pressure")
+      pressure = JSON.parse(res.body).dig("current", "pressure")
     rescue => e
     end
 
+    text = pressure.present? ? "#{(Time.zone.now + 9.hours).strftime("%Y年%m月%d日 %H:%M:%S")}現在の気圧は#{pressure}hPaです。注意しましょう" : "気圧が取得できませんでした。"
+
     message = {
       type: 'text',
-      text: "今日の気圧は#{pressure}hPaです。注意しましょう"
+      text: text
     }
 
     client = Line::Bot::Client.new { |config|
