@@ -34,6 +34,6 @@ class LineBotController < ApplicationController
 
   def follow_event(event)
     line_id = event["source"]["userId"]
-    LineUser.create!(line_id: lien_id)
+    LineUser.create!(line_id: line_id)
   end
 end
